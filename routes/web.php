@@ -13,7 +13,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-Route::get('ajax-pagination',array('as'=>'ajax.pagination','uses'=>'HomeController@ajaxPagination'));
+
+Route::get('ajax-pagination', array('as' => 'ajax.pagination', 'uses' => 'HomeController@ajaxPagination'));
 Route::get('/', function () {
     $products = App\Product::all();
     return view('welcome', compact('products'));
@@ -29,3 +30,5 @@ Route::post('stripe/webhooks', 'WebhookController@handle');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+Route::view('/da', 'da');
+Route::post('allposts', 'PostController@allPosts')->name('allposts');
