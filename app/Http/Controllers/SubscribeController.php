@@ -27,4 +27,10 @@ class SubscribeController extends Controller
 
     }
 
+    public function destroy()
+    {
+        auth()->user()->subscription()->cancel();
+        return back();
+    }
+
 }

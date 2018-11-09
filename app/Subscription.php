@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Stripe\Customer;
 
@@ -25,4 +26,18 @@ class Subscription extends Model
         $this->user->subscribe($customer->id);
 
     }
+
+    public function cancel($atPeriodEnd = true)
+    {
+        $customer = Customer::retrieve($this->user->stripe_id);
+        $subscription = $customer->cancelSubscription(['at_period_end' => $atPeriodEnd]);
+        $endDate = Carbon::createFromTimestamp($subscription->current_period_end);
+        $this->user->deactivate($endDate);
+    }
+
+    public function cancelImmediately()
+    {
+        $this->cancel(false);
+    }
+
 }
